@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+    body{
+        margin:0;
+        padding:0;
+        background:linear-gradient(135deg, #000000, #800080);
+    }
+    .main{
+        display: flex;
+        justify-content:center;
+        height:100vh;
+        align-items:center;
+       
+    
+    }
+    .container{
+        background-color: white;
+        padding:10px;
+        width:50;
+      
+    
+    }
+    h1{
+        color:black;
+        text-align: center;
+    }
+    .search{
+        height:10px;
+        padding: 10px;
+        text-align: center;
+        font-size: 1rem;
+        margin-bottom: 5px;
+        width:80%;
+       
+        border:none;
+    
+    }
+    .btn{
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    background-color: white;
+
+}
+.btn:hover{
+    color: black;
+    background-color: white;
+}
+    .location{
+        color:black;
+    }
+    .current{
+        color:black;
+    }
+    nav{
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-image:url(weather.jpg);
+backdrop-filter: blur(5.5px);
+background-size: cover;
+padding: 10px 30px;
+color: white;
+z-index: -1;
+}
+.nav-left{
+  display: flex;
+  align-items: center;
+}
+.nav-left a{
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+nav > a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.bar {
+  display: flex;
+  gap: 30px;
+}
+
+.bar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+.weather-icon{
+    display:none;
+}
+    </style>
+    
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="naav-left"><a href="#"><span class="material-symbols-outlined">menu</span></a></div>
+            
+            <a href="weather.html">Home</a>
+            <a href="#">Contact us</a>
+            <div class="bar">
+                <div><a href="#"><span class="material-symbols-outlined action action_icon">settings</span></a>
+                <span class="name action">Settings</span></div></div>
+            <div class="bar">    
+            <div><a href="#"><span class="material-symbols-outlined action action_icon">location_on</span></a>
+                <span class="name action">Location</span></div>
+            </div>
+            
+        </nav>
+    </header>
+     <div class="main">
+        <div class="container">
+            <h1>Weather App</h1>
+            <form action="">
+                <input type="text" id="city" class="search" placeholder="Enter city Name">
+                <button class="btn">Submit</button>
+                <p class="error"></p>
+            </form>
+            <section>
+                <div class="container">
+                    <div class="icon">
+                        <img src="" alt="" class="weather-icon">
+                    </div>
+                    <div class="location">
+                       <div class="city">Newyork ,US</div>
+                       <div class="date">Thursday ,26 Dec 2020</div> 
+                    </div>
+                    <div class="current">
+                        <div class="temp">Temp:25°C </div>
+                        <div class="weather">Weather:Sunny</div>
+                        <div class="temp-range">Temp Range:10°C/15°C</div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+     </div>
+     
+     
+<script>let api={
+    key:"be598e5e63fe3f614a65fb6e0de71b76",
+    base:"https://api.openweathermap.org/data/2.5/"
+    }
+    let search=document.querySelector(".search");
+    let btn=document.querySelector(".btn");
+    btn.addEventListener("click",getInput);
+    
+    
+    function getInput(event){
+        event.preventDefault();
+        if(event.type =="click"){
+           getData(search.value);
+           console.log(search.value);
+    
+        }
+            
+    }
+    function getData(city){
+        fetch(`${api.base}weather?q=${city}&appid=${api.key}`)
+        .then(response=>{
+            return response.json();
+        }).then(displayData);
+    }
+    function displayData(response){
+        console.log(response);
+        if(response.cod=== "404"){
+            let error=document.querySelector(".error")
+            error.textContent="please enter a valid city name";
+            search.value="";
+        }else{
+            let city=document.querySelector(".city")
+                city.textContent=`${response.name},${response.sys.country}`
+    
+                let today=new Date();
+                let date=document.querySelector(".date");
+                date.textContent=getDates(today)
+    
+                let temp=document.querySelector(".temp")
+                temp.textContent=` Temp: ${Math.round(response.main.temp-273)}°C`
+    
+                let weather=document.querySelector(".weather");
+                weather.textContent=` Weather : ${response.weather[0].main}`
+    
+                let tempRange= document.querySelector(".temp-range")
+                tempRange.textContent= `Temp Range:${Math.round(response.main.temp_min-273)}°C / ${Math.round(response.main.temp_max)}°C`
+    
+                let weatherIcon=document.querySelector(".weather-icon")
+                let newURL="  https://openweathermap.org/img/wn/"
+                weatherIcon.src=`${newURL}${response.weather[0].icon}@2x.png`;
+                let weatherCondition = response.weather[0].main.toLowerCase();
+        let body = document.body; 
+
+        if (weatherCondition.includes("clear")) {
+            body.style.backgroundImage = "url(sunny.webp)";
+        } else if (weatherCondition.includes("rain")) {
+            body.style.backgroundImage = "url(rainy.png)";
+        } else if (weatherCondition.includes("cloud")) {
+            body.style.backgroundImage = "url(cloudy.jpg)";
+        } else if (weatherCondition.includes("snow")) {
+            body.style.backgroundImage = "url(snow.webp)";
+        } else {
+            body.style.backgroundImage = "url(normal.webp)";
+        }
+        body.style.backgroundSize = "cover";
+        body.style.backgroundPosition = "center";
+        } 
+    }
+    function getDates(d){
+        let months=["Jan","Feb","Mar","April","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        let days=["sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        let day=days[d.getDay()];
+        let date=d.getDate();
+        let month=months[d.getMonth()];
+        let year=d.getFullYear();
+        return `${day}, ${date} ${month} ${year}`;
+    }</script>
+</body>
+</html>

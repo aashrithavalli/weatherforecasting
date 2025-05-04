@@ -1,0 +1,110 @@
+body{
+  margin:0;
+  padding: 0;
+}
+
+
+.blur-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url('weather.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(5.5px);
+  z-index: -1;
+}
+nav{
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-image:url(weather.jpg);
+backdrop-filter: blur(5.5px);
+background-size: cover;
+padding: 10px 30px;
+color: white;
+z-index: -1;
+}
+.nav-left{
+  display: flex;
+  align-items: center;
+}
+.nav-left a{
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+nav > a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+.bar {
+  display: flex;
+  gap: 30px;
+}
+
+.bar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+.overlay-content {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  z-index: 1;
+} 
+.material-symbols-outlined.action_icon {
+  font-size: 24px;
+  margin-bottom: 3px;
+  color: white;
+}
+
+.name.action {
+  font-size: 14px;
+  color: white;
+}
+.overlay-content h1 {
+  font-size: 3rem;
+}
+
+.overlay-content p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-top: 15px;
+}
+
+.overlay-content button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color:black;
+  color:orange;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.overlay-content button:hover {
+  background-color: #c084f7;
+  color:black;
+}
